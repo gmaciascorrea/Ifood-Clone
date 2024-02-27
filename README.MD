@@ -4,6 +4,6 @@
 
 #### Documentação 
 
-> ⚠️ [Esteira de funcionalidades]()
-> ⚠️ [Linguagem de aplicação]()
-> ⚠️ [Definição de ferramenta de bancos]()
+- > ⚠️ [Esteira de funcionalidades]()
+- > ⚠️ [Linguagem de aplicação]()
+- > ⚠️ [Definição de ferramenta de bancos]()
