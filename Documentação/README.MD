@@ -2,10 +2,10 @@
 
 ### Listado abaixo as documentações utilizadas:
 
-> - <kbd>[size=20]Esteira de funcionalidades[/size]</kbd>
+> - Esteira de funcionalidades
 
-> - <kbd>[size=20]Linguagem de Aplicação[/size]</kbd>
+> - Linguagem de Aplicação
 
-> - <kbd>[size=20]Definição de ferramenta de bancos[/size]</kbd>
+> - Definição de ferramenta de bancos
 
 ### Para acessar as documentações basta fazer download dos arquivos desejados.
