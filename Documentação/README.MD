@@ -10,4 +10,7 @@
 
 > - ✅ **Documentação páginas revisadas**
 
+> - ✅ **MER- Banco de dados**
+
+
 ### Para acessar as documentações basta fazer download dos arquivos desejados.
