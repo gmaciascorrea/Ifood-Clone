@@ -6,6 +6,6 @@
 
 > - ✅ **Linguagem de Aplicação**
 
-> - ✅ **Definição de ferramenta de bancos**
+> - ✅ **Definição da ferramenta de banco de dados**
 
 ### Para acessar as documentações basta fazer download dos arquivos desejados.
