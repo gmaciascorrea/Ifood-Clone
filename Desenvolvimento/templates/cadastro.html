@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/cdlog.css">
+    <!-- <link rel="stylesheet" href="/static/fonts.css"> -->
+    <title>iFood - Cadastro</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-image">
+            <img src="/static/img/teste.png" alt="">
+        </div>
+
+        <div class="form">
+            <form action="{{url_for('cadastrar')}}" method="POST">
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Cadastre-se</h1>
+                        
+                    </div>
+                    
+                    <div class="login-button">
+                        <!-- <button><a href="/login">Entrar</a></button> -->
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="NomeSobre">Nome e Sobrenome</label>
+                        <input id="nome" type="text" name="nome" placeholder="Nome e sobrenome" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="CPF">CPF</label>
+                        <input id="cpf" type="text" name="cpf" placeholder="Digite aqui seu CPF" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="E-mail">E-mail</label>
+                        <input id="email" type="email" name="email" placeholder="Exemplo@ifood.com" required>
+                    </div>
+
+                    <!-- <div class="input-box">
+                        <label for="Celular">Celular</label>
+                        <input id="cel" type="tel" name="cel" placeholder="(xx) xxxx-xxxx" required>
+                    </div> -->
+
+                    <div class="input-box">
+                        <label for="Senha">Senha</label>
+                        <input id="senha" type="password" name="senha" placeholder="Escolha sua senha" required>
+                    </div>
+                    
+                </div>
+                <div class="continuar-button">
+
+                        <button>Cadastrar</button>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

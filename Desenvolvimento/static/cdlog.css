@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background: rgb(34, 34, 34); */
+    background: #fdedee;
+}
+
+.container {
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    /* box-shadow: 0px 10px 40px #00000056; */
+    /* box-shadow: 0px 10px 40px #10cc0631  */
+}
+
+.form-image {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.form-image img{
+    width: 31rem;
+}
+
+.form{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    padding: 3rem;
+}
+
+.form h3{
+    color: #3e3e3e;
+    text-decoration: underline;
+    text-align: center;
+}
+
+
+.form-header {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-header h1 {
+    color: #3e3e3e;
+}
+
+.voltar {
+    display: flex;
+    align-items: center;
+}
+
+.voltar button{
+    border: 2px solid #c2121f;
+    background-color: transparent;
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #ea1d2c;
+
+} 
+
+.voltar button:hover{
+    background-color: #c2121f;
+}
+
+.voltar button a {
+    text-decoration: none;
+    font-weight: 500;
+    color: white;
+}
+
+/* .form-header h1::after {
+    content: '';
+    display: block;
+    width: 5rem;
+    height: 0.3rem;
+    background-color: #ea1d2c;
+    margin: auto 0;
+    position: relative;
+    border-radius: 10px;
+} */
+
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 0;
+    gap: 10px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.1rem;
+}
+
+.input-box input {
+    margin: 0.6rem 0;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 6px #c4c4c4;
+}
+
+/* .input-box input:hover {
+    background-color: #eeeeee75;
+} */
+
+.input-box input:focus-visible {
+    outline: 1px solid #ea1d2c;
+}
+
+.input-box label,
+.gender-title h6{
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3e3e3e;
+
+}
+
+.input-box input::placeholder{
+    color: #000000be;
+}
+
+.continuar-button button {
+    width: 100%;
+    margin-top: 1rem;
+    border: 2px solid #c2121f;
+    background-color: #ea1d2c;
+    padding: 0.62rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+
+.continuar-button button:hover {
+    background-color: #c2121f;
+}
+
+.continuar-button button a{
+    color: #3e3e3e;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.google-btn {
+    display: inline-block;
+    /* background-color: #c4c4c4; */
+    color: #3e3e3e;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    box-shadow: 1px 1px 6px #c4c4c4;
+    width: 100%;
+    text-align: center;
+}
+
+.google-btn:hover {
+    background-color: #d4d4d491;
+    transform: scale(1.02);
+}
+
+.google-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url('https://logopng.com.br/logos/google-37.png');
+    background-size: cover;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.google-text {
+    vertical-align: middle;
+    
+}
+
+h4{
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+
+
+
+@media screen and (max-width: 1330px){
+    .form-image{
+        display: none;
+    }
+
+    .container{
+        width: 50%;
+    }
+    
+    .form{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1064px){
+    .container{
+        width: 90%;
+        height: auto;
+    }
+    
+    .input-group {
+        flex-direction: column;
+        overflow-y: scroll;
+        flex-wrap: nowrap;
+        max-height: 10rem;
+        padding-right: 5rem;
+    }
+    .continuar-button button {
+        margin-top: 2rem;
+    }
+
+    .form-header h1{
+        font-size: 25px;
+        
+    }
+}

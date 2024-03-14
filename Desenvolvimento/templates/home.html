@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6adbe82b02.js" crossorigin="anonymous"></script>
+
+
+    <title>iFood - GGMF</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid gap-2">
+            <a href=""><img src="/static/img/logo ifood.png"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
+                    <li class="nav-item ">
+                        <a class="nav-link" aria-current="page" href="#"><span class="ativo">Inicio</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="efeito">Restaurantes</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="efeito">Mercados</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="efeito">Bebidas</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="efeito">Farmácias</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="efeito">Pets</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><span class="efeito">Shopping</span></a>
+                    </li>
+                    <form action="{{url_for('carrecarcep')}}" method="POST">
+                        <div class="form">
+                            <!-- <form action="{{url_for('carrecarcep')}}" method="POST"> -->
+                            <div class="busca">
+                                <img src="/static/img/search.svg" alt="">
+                                <input name="busca" id="busca" type="text" placeholder="Carregar endereço">
+                            </div>
+                            <!-- <button><a href="{{url_for('carrecarcep')}}">Buscar</a></button> -->
+                            <button type="submit">Buscar</button>
+                            <!-- <button type="submit">buscar</button> -->
+                            <!-- </form> -->
+                        </div>
+                    </form>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">{{end}}</a>
+                    </li>
+                </ul>
+
+
+                <span class="navbar-text">
+                    <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="icons" src="/static/img/usuario.png" alt="">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="vermelho"><a class="dropdown-item vermelho" href="/">Sair</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </span>
+                <span class="carrinho">
+                    <a href=""><img class="icons" src="/static/img/carrinho.png" alt="">R$0,00</a>
+                    <!-- <p>R$0,00</p> -->
+                </span>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="buttons-info">
+        <div class="info">
+            <img class="" src="/static/img/hamb.png" alt="">
+            <p>Restaurantes</p>
+        </div>
+        <div class="info">
+            <img class="" src="/static/img/mercado.png" alt="">
+            <p>Mercado</p>
+        </div>
+        <div class="info">
+            <img class="" src="/static/img/farmácia.jpg" alt="">
+            <p>Farmácia</p>
+        </div>
+        <div class="info">
+            <img class="" src="/static/img/pets.jpg" alt="">
+            <p>Pet</p>
+        </div>
+        <div class="info">
+            <img class="" src="/static/img/bebidas.jpg" alt="">
+            <p>Bebidas</p>
+        </div>
+        <div class="info">
+            <img class="" src="/static/img/shopping.jpg" alt="">
+            <p>Shopping</p>
+        </div>
+        <div class="info">
+            <img class="" src="/static/img/gourmet.jpg" alt="">
+            <p>Gourmet</p>
+        </div>
+
+        <!-- <img src="images/landing-banner-1.png" alt=""> -->
+    </div>
+
+    <div class="lojas">
+
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/static/img/hamb.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Loja x</h5>
+                            <p class="card-text">descrição da loja</p>
+                            <a href="#" class="btn btn-danger">Visitar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/static/img/hamb.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Loja x</h5>
+                            <p class="card-text">descrição da loja</p>
+                            <a href="#" class="btn btn-danger">Visitar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="/static/img/hamb.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Loja x</h5>
+                            <p class="card-text">descrição da loja</p>
+                            <a href="#" class="btn btn-danger">Visitar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

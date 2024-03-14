@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    margin: 0 auto;
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+.conteudo {
+    height: 80%;
+    max-height: 520px;
+    background: #f5f3f4;
+}
+
+.header {
+    display: flex;
+    justify-content: start;
+    margin: 0 45px;
+
+}
+
+.header ul {
+    display: flex;
+    align-items: center;
+}
+
+.header ul li{
+    list-style: none;
+    margin: 0 25px;
+}
+
+.header ul li img{
+    max-width: 10vh;
+}
+
+.header ul li a{
+    text-decoration: none;
+    color: #3e3e3e;
+}
+
+.header ul li a:hover{
+    color: #ea1d2c;
+}
+
+.header ul li:last-child {
+    background: #ea1d2c;
+    padding: 15px 45px;
+    margin: 0 0 0 25px;
+    border-radius: 5px;
+    border:  1px solid #dcdcdc;
+    color: white;
+    font-weight: 500;
+}
+
+.header ul li:last-child a{
+    color: white;
+}
+
+.header ul li:last-child:hover {
+    background: #c2121f;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.bg {
+    display: flex;
+    height: 100%;
+    padding-bottom: 20px;
+}
+
+.esquerda img{
+    position: absolute;
+    width: 400px;
+    top: 0;
+    left: 0;
+}
+
+.esquerda .svg {
+    width: 160px;
+    height: 180px;
+    left: 71px;
+    top: 257px;
+}
+
+.direita img{
+    position: absolute;
+    width: 240px;
+    top: 204px;
+    right: 0;
+}
+
+.direita .svg{
+    width: 198px;
+    height: 172px;
+    right: 138px;
+    top: 106px;
+    transform: rotate(-8deg)
+}
+
+.content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content .logo{
+    width: 120px;
+}
+
+.content h1 {
+    font-size: 2.5rem;
+    color: #3e3e3e;
+    font-weight: 600;
+    margin: 20px 0;
+}
+
+.form {
+    width: 100%;
+    max-width: 780px;
+    display: flex;
+}
+
+.form .busca{
+    width: 100%;
+    max-width: 650px;
+    background-color: #fff;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 20px;
+    display: flex;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.form .busca img {
+    width: 26px;
+    margin: 0 20px;
+}
+
+.form .busca input{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: none;
+    font-size: 1rem;
+}
+
+.form .busca input::placeholder{
+    font-weight: 400;
+    color: #a6a6a6;
+}
+
+.form button {
+    width: 210px;
+    background: #ea1d2c;
+    color: #fff;
+    font-weight: 400;
+    border: 0;
+    border-radius: 4px;
+}
+
+.form button:hover{
+    background: #c2121f;
+    cursor: pointer;
+}
+
+.banner {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.banner img:hover{
+    transform: scale(1.02);
+}
+
+.footer {
+    margin: 20px;
+    border-top: 1px solid #dcdcdc;
+    display: flex;
+    padding: 20px 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer img{
+    width: 60px;
+}
+
+.teste {
+    font-family: "Inter", sans-serif;
+}
+
+
+/* Página home ----------------------- */
+
+.icons {
+    width: 30px;
+}
+
+.carrinho a {
+    text-decoration: none;
+    color: #3e3e3e;
+}
+
+.container-fluid img {
+    max-width: 10vh;
+}
+
+.ativo {
+    color: #ea1d2c;
+}
+
+.efeito:hover{
+    color: #ea1d2c;
+}
+
+.buttons-info {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    padding-top: 100px;
+    gap: 30px;
+}
+
+.info:hover{
+    transform: scale(1.02);
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: column;
+    width: 100px;
+    padding: 5px;
+    border-radius: 5px;
+    gap: 10px;
+
+}
+
+.info img{
+    width: 100%;
+    max-height: 60px;
+    background-color: #3e3e3e0f;
+    border-radius: 5px;
+
+
+}
+
+.vermelho{
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
+}
+
+.vermelho:hover {
+    color: #ea1d2c;
+    
+}
+
+/* .info p {
+    justify-content: space-between;
+} */
