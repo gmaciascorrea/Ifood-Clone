@@ -7,6 +7,7 @@ import os
 import brazilcep
 
 
+
 # Conexão com o banco de dados MYSQL
 mydb = mysql.connector.connect(
       host='localhost',
@@ -46,7 +47,44 @@ def validarlogin(function):
             return redirect("/entrar")
         return function()
     return validar
-    
+
+def pegarnome():
+	usuario  = session.get("user")
+	global nome
+	my_cursor.execute(f"SELECT nome FROM iFood.usuario WHERE user_id = {usuario}")
+	nome = my_cursor.fetchall()[0][0]
+
+def cad_endereco():
+	usuario  = session.get("user")
+	my_cursor.execute(f"UPDATE iFood.usuario SET endereco = '{retornar_endereco}' WHERE user_id = {usuario}")
+	mydb.commit()
+
+def cad_restaurante():
+	usuario = session.get("user")
+	my_cursor.execute(f"INSERT INTO iFood.restaurante (nome, endereco, telefone, owner, descricao) VALUES ('{restaurante}', '{endereco_restaurante}', '{telerestaurante}', {usuario}, '{descrestaurante}')")
+	mydb.commit()
+
+def carregar_restaurantes():
+	global restaurantes
+	my_cursor.execute("SELECT * FROM iFood.restaurante ")
+	restaurantes = my_cursor.fetchall()
+
+def buscar_restaurante():
+	global valorbus
+	coletar_busca = request.form.get("busca")
+	my_cursor.execute(f"SELECT * FROM iFood.restaurante WHERE nome like '%{coletar_busca}%'")
+	valorbus = my_cursor.fetchall()
+
+def carregar_meus_restaurantes():
+	usuario = session.get("user")
+	global meus_restaurantes
+	my_cursor.execute(f"SELECT id, nome, descricao FROM iFood.restaurante WHERE owner = {usuario}")
+	meus_restaurantes = my_cursor.fetchall()
+
+def verify():
+    if not session.get("user"):
+    	return redirect("/entrar")
+	
 
 # telas
 @app.route("/")
@@ -62,15 +100,54 @@ def index_entrar():
 def index_cadastrar():
 	return render_template("cadastro.html")
 
+@app.route("/cad_restaurante", methods=["GET", "POST"])
+def index_restaurante():
+
+	if request.method == "GET":
+		return render_template("cadrestaurante.html")
+	else:
+		global restaurante
+		global telerestaurante
+		global descrestaurante
+		restaurante = request.form.get("nomerestaurante")
+		enderestaurante = request.form.get("enderecorestaurante") #tratar
+		telerestaurante = request.form.get("telefonerestaurante")
+		descrestaurante = request.form.get("descricaorestaurante")
+
+		global endereco_restaurante
+		address = brazilcep.get_address_from_cep(f'{enderestaurante}')
+		endereco_restaurante = address['street']
+
+		# print(restaurante, endereco_restaurante, telerestaurante)
+		cad_restaurante()
+		return redirect("/inicio")
+
+
 @app.route("/inicio")
 # @precisa_logar está chamando a função de logar
 @validarlogin
 def index_inicio():
-	# if not session.get("user"):
-	# 	return redirect("/entrar")
+
+
 	usuario  = session.get("user")
-	print(usuario)
-	return render_template("home.html")
+	my_cursor.execute(f"SELECT nome FROM iFood.usuario WHERE user_id = {usuario}")
+	nome = my_cursor.fetchall()[0][0]
+	
+	carregar_restaurantes()
+
+	return render_template("home.html", nome=nome, restaurantes=restaurantes)
+
+	
+
+@app.route("/buscando", methods=["POST"])
+def buscar_res():
+	buscar_restaurante()
+	return redirect("/busca")
+
+@app.route("/busca")
+def busca_fin():
+	pegarnome()
+	return render_template("busca.html", valorbus=valorbus, nome=nome)
 
 
 @app.route("/inicio/ende", methods=["POST"])
@@ -80,6 +157,30 @@ def carrecarcep():
     retorno = address['street']
 
     return render_template("home.html", end=retorno)
+
+@app.route("/meus_dados", methods=['POST', 'GET'])
+def mdados():
+	if not session.get("user"):
+		return redirect("/entrar")
+
+
+	if request.method == 'GET':
+		pegarnome()
+		carregar_meus_restaurantes()
+		usuario  = session.get("user")
+		my_cursor.execute(f"SELECT endereco FROM iFood.usuario WHERE user_id = {usuario}")
+		end_cadastrado= my_cursor.fetchall()[0][0]
+		print(end_cadastrado)
+		return render_template("mdados.html", nome=nome, end_cadastrado=end_cadastrado, meus_restaurantes=meus_restaurantes)
+
+
+	else:
+		global retornar_endereco
+		coletarcep = request.form.get("cep")
+		address = brazilcep.get_address_from_cep(f'{coletarcep}')
+		retornar_endereco = address['street']
+		cad_endereco()
+		return redirect("/meus_dados")
 
 @app.route("/retorno")
 def retorno():

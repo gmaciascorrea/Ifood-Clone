@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/cdlog.css">
+    <!-- <link rel="stylesheet" href="/static/fonts.css"> -->
+    <title>iFood - Cadastro</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-image">
+            <img src="/static/img/teste.png" alt="">
+        </div>
+
+        <div class="form">
+            <form action="{{url_for('index_restaurante')}}" method="POST">
+                <div class="form-header">
+                    <div class="title">
+                        <h1>Cadastre seu restaurante!</h1>
+                        
+                    </div>
+                    
+                    <div class="login-button">
+                        <!-- <button><a href="/login">Entrar</a></button> -->
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-box">
+                        <label for="NomeSobre">Nome do Restaurante</label>
+                        <input id="nome" type="text" name="nomerestaurante" placeholder="Ex: Japa House's" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="cep">Endereço - CEP</label>
+                        <input id="endereco" type="text" name="enderecorestaurante" placeholder="Ex: 03877000" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="telefone">Telefone</label>
+                        <input id="telefone" type="text" name="telefonerestaurante" placeholder="Ex: 11977711336" required>
+                    </div>
+
+                    <!-- <div class="input-box">
+                        <label for="Celular">Celular</label>
+                        <input id="cel" type="tel" name="cel" placeholder="(xx) xxxx-xxxx" required>
+                    </div> -->
+
+                    <div class="input-box">
+                        <label for="descricao">Descrição</label>
+                        <input id="descricao" type="type" name="descricaorestaurante" placeholder="Ex: comidas japonesas..." >
+                    </div>
+                    
+                </div>
+                <div class="continuar-button">
+
+                        <button>Cadastrar</button>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

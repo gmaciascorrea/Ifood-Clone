@@ -4,11 +4,21 @@
     box-sizing: border-box;
 }
 
+button:focus{
+    outline: thin dotted;
+    outline: 0px auto -webkit-focus-ring-color;
+    outline-offset: 0px;
+}
+
 body{
     height: 100vh;
     margin: 0 auto;
     font-family: "Raleway", Arial, Helvetica, sans-serif;
     font-size: 16px;
+}
+
+.meusdados{
+    font-family: "Raleway", Arial, Helvetica, sans-serif;
 }
 
 .container{
@@ -270,6 +280,71 @@ body{
     color: #ea1d2c;
     
 }
+
+.input-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1rem 0;
+    gap: 10px;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.1rem;
+}
+
+.input-box input {
+    margin: 0.6rem 0;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 6px #c4c4c4;
+}
+
+/* .input-box input:hover {
+    background-color: #eeeeee75;
+} */
+
+
+.input-box input:focus-visible {
+    outline: 1px solid #ea1d2c;
+}
+
+.foco:focus-visible{
+
+    outline: 1px solid #ea1d2c;
+}
+
+.input-box label,
+.gender-title h6{
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #3e3e3e;
+
+}
+
+.input-box input::placeholder{
+    color: #000000be;
+}
+
+
+.button_end {
+    width: 210px;
+    height: 50px;
+    background: #ea1d2c;
+    color: #fff;
+    font-weight: 400;
+    border: 0;
+    border-radius: 4px;
+}
+
+.button_end:hover{
+    background: #c2121f;
+    cursor: pointer;
+}
+
 
 /* .info p {
     justify-content: space-between;
