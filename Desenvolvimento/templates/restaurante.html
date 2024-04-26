@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,11 +14,13 @@
         crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6adbe82b02.js" crossorigin="anonymous"></script>
 
-
-    <title>iFood - GGMF</title>
+    {% for row in salvando %}
+    <title>{{row[1]}}</title>
+    {% endfor %}
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid gap-2">
             <a href=""><img src="/static/img/logo ifood.png"></a>
@@ -30,10 +31,10 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
                     <li class="nav-item ">
-                        <a class="nav-link" aria-current="page" href="/inicio"><span class="">Inicio</span></a>
+                        <a class="nav-link" aria-current="page" href="/inicio"><span>Inicio</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><span class="ativo">Restaurantes</span></a>
+                        <a class="nav-link" href="#"><span class="efeito">Restaurantes</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><span class="efeito">Mercados</span></a>
@@ -55,7 +56,7 @@
                             <!-- <form action="{{url_for('carrecarcep')}}" method="POST"> -->
                             <div class="busca">
                                 <img src="/static/img/search.svg" alt="">
-                                <input name="busca" id="busca" type="text" placeholder="Buscar restaurante">
+                                <input name="busca" id="busca" type="text" placeholder="Buscar Restaurante">
                             </div>
                             <!-- <button><a href="{{url_for('carrecarcep')}}">Buscar</a></button> -->
                             <button type="submit">Buscar</button>
@@ -78,10 +79,15 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <p class="text-center">Olá, {{nome}}</p>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li class="vermelho"><a class="dropdown-item vermelho" href="/meus_dados">Meus dados</a></li>
-                                    <li class="vermelho"><a class="dropdown-item vermelho" href="/cad_restaurante">Restaurante</a></li>
-                                    <li class="vermelho"><a class="dropdown-item vermelho" href="{{url_for('sair')}}">Sair</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li class="vermelho"><a class="dropdown-item vermelho" href="/meus_dados">Meus
+                                            dados</a></li>
+                                    <li class="vermelho"><a class="dropdown-item vermelho"
+                                            href="/cad_restaurante">Restaurante</a></li>
+                                    <li class="vermelho"><a class="dropdown-item vermelho"
+                                            href="{{url_for('sair')}}">Sair</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -89,7 +95,7 @@
 
                 </span>
                 <span class="carrinho">
-                    <a href=""><img class="icons" src="/static/img/carrinho.png" alt="">
+                    <a href="/cesta"><img class="icons" src="/static/img/carrinho.png" alt="">
                         {% if vcesta == 0.0 %}
                         R$0.00
                         {% else %}
@@ -104,96 +110,100 @@
         </div>
     </nav>
 
-    <!-- <div class="buttons-info">
-        <div class="info">
-            <a href="/inicio"><img class="" src="/static/img/hamb.png" alt=""></a>
-            <p>Restaurantes</p>
+    <!-- <div class="container text-center">
+        <div class="row">
+          <div class="col">
+            
+          </div>
+          <div class="col">
+            <h2 class="text-decoration-underline">Nome restaurante aqui</h2>
+            <p>descrição aqui</p>
+          </div>
+          <div class="col">
+            
+          </div>
         </div>
-        <div class="info">
-            <img class="" src="/static/img/mercado.png" alt="">
-            <p>Mercado</p>
+      </div> -->
+    <div class="card text-bg-dark">
+        <img src="/static/img/banner2.jpg" class="img-card" alt="...">
+        <div class="card-img-overlay">
+            {% for row in salvando %}
+            <h1 class="card-title text-dark display-1">{{row[1]}}</h1>
+            {% if row[6] == ''%}
+            <p class="card-text text-dark display-4"></p>
+            {% else %}
+            <p class="card-text text-dark display-4">{{row[6]}}</p>
+            {% endif %}
+            <p class="card-text text-dark display-4"><small>{{row[2]}}</small></p>
+            {% endfor %}
         </div>
-        <div class="info">
-            <img class="" src="/static/img/farmácia.jpg" alt="">
-            <p>Farmácia</p>
-        </div>
-        <div class="info">
-            <img class="" src="/static/img/pets.jpg" alt="">
-            <p>Pet</p>
-        </div>
-        <div class="info">
-            <img class="" src="/static/img/bebidas.jpg" alt="">
-            <p>Bebidas</p>
-        </div>
-        <div class="info">
-            <img class="" src="/static/img/shopping.jpg" alt="">
-            <p>Shopping</p>
-        </div>
-        <div class="info">
-            <img class="" src="/static/img/gourmet.jpg" alt="">
-            <p>Gourmet</p>
-        </div>
+    </div>
 
-
-    </div> -->
-
-    <div class="lojas">
-
-        <div class="container text-center pt-5">
+    <div class="container text-center pt-3">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-decoration-underline">Produtos</h2>
+            </div>
+        </div>
+        <div class="container text-center">
             <div class="row">
-                {% if valorbus == [] %}
-                <h3>Não encontramos nenhum resultado para sua pesquisa...</h3>
-                {% endif %}
-                {% for i in valorbus %}
-                <div class="col">
+                {% if produtos == [] %}
+                <h1 class="display-4">Esse restaurante não tem itens cadastrados.</h1>
+                {% else %}
+                {% for i in produtos %}
+                {% for row in salvando %}
+                <div class="col pt-2">
                     <div class="card" style="width: 18rem;">
-                        <img src="/static/img/prato.jpg" class="card-img-top" alt="...">
+                        <div class="d-flex justify-content-center">
+                            <img src="{{i[3]}}" class="card-img-top  w-25" alt="...">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{i[1]}}</h5>
-                            {% if i[6] == "" %}
-                            <p class="card-text">Nenhuma descrição cadastrada</p>
-                            {% else %}
-                            <p class="card-text">{{i[6]}}</p>
-                            {% endif %}
-                            <a href="{{url_for('entrar_restaurante', id=i[0])}}" class="btn btn-danger">Visitar</a>
+                            <p class="card-text">R${{i[4]}}</p>
+                            <!-- <p class="card-text"><input type="number" id="tentacles" name="tentacles" min="1" max="3"/></p> -->
+                            
+                            <a href="{{url_for('inserir_cesta', id=i[0], res=row[0])}}" class="btn btn-danger">Adicionar na cesta</a>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
-                
-                
+                {% endfor %}
+                {% endif %}
+
 
             </div>
         </div>
-
     </div>
-    
-    <!-- <div class="lojas">
-    </div> -->
 
-    <!-- <div class="container text-center">
-        <div class="row">
-          <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-          </div>
-           -->
-          <!-- <div class="col">
-            2 of 3
-          </div>
-          <div class="col">
-            3 of 3
-          </div> -->
-        <!-- </div>
-      </div> -->
+    <!-- <div class="lojas"> -->
 
 
+
+    <!-- </div> -->
+
+
+    <!-- <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in salvando %}
+            <tr>
+                <th scope="row">{{i[0]}}</th>
+                <td>{{i[1]}}</td>
+                {% if i[2] == '' %}
+                <td>Sem descrição</td>
+                {% else %}
+                <td>{{i[2]}}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> -->
 </body>
 
 </html>

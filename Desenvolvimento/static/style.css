@@ -345,6 +345,14 @@ body{
     cursor: pointer;
 }
 
+.centered {
+    margin: 0 auto !important;
+    float: none !important;
+}
+
+.corrigir-produto{
+    max-width: 25px;
+}
 
 /* .info p {
     justify-content: space-between;

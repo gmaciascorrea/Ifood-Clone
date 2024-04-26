@@ -20,6 +20,7 @@
 </head>
 
 <body>
+    
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid gap-2">
             <a href=""><img src="/static/img/logo ifood.png"></a>
@@ -30,7 +31,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-3">
                     <li class="nav-item ">
-                        <a class="nav-link" aria-current="page" href="#"><span class="ativo">Inicio</span></a>
+                        <a class="nav-link" aria-current="page" href="/inicio"><span class="ativo">Inicio</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><span class="efeito">Restaurantes</span></a>
@@ -89,14 +90,30 @@
 
                 </span>
                 <span class="carrinho">
-                    <a href=""><img class="icons" src="/static/img/carrinho.png" alt="">R$0,00</a>
+                    <a href="/cesta"><img class="icons" src="/static/img/carrinho.png" alt="">
+                        {% if vcesta == 0.0 %}
+                        R$0.00
+                        {% else %}
+                        R${{vcesta}}
+                        {% endif %}
+                    
+                    </a>
                     <!-- <p>R$0,00</p> -->
                 </span>
 
             </div>
         </div>
     </nav>
+    
+    {% block conteudo %}
 
+    {% if sucesso == []%}
+    <p></p>
+    {% else %}
+    <div class="alert alert-success text-center" role="alert">
+        Notamos que você tem um pedido pendente, acompanhe seu pedido <span class="text-decoration-underline">Aqui</span>
+      </div>
+      {% endif %}
     <div class="buttons-info">
         <div class="info">
             <img class="" src="/static/img/hamb.png" alt="">
@@ -145,7 +162,7 @@
                             {% else %}
                             <p class="card-text">{{i[6]}}</p>
                             {% endif %}
-                            <a href="#" class="btn btn-danger">Visitar</a>
+                            <a href="{{url_for('entrar_restaurante', id=i[0])}}" class="btn btn-danger">Visitar</a>
                         </div>
                     </div>
                 </div>
@@ -158,7 +175,7 @@
 
     </div>
 
-
+    {% endblock %}
 </body>
 
 </html>

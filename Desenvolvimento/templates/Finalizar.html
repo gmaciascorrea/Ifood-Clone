@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido</title>
+</head>
+<body>
+    {% extends  'home.html'%}
+    {%block conteudo%}
+
+    <div class="col-md-auto">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="container text-center">
+                <div class="row align-items-start">
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+                        <h1 class="meusdados">Finalizar Pedido ID: {{id_do_pedido}}</h1>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header border-0">
+                                <button class="accordion-button collapsed bg-danger text-white btn-danger" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    Escolha seu Endereço
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <form action="{{url_for('mdados')}}" method="POST">
+
+                                        <div class="mb-3 input-box">
+                                            <!-- <label for="exampleInputEmail1" class="form-label">Digite seu cep</label>
+                                            <input class="foco" type="text" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp" name="cep">
+
+                                            <label for="exampleInputEmail1" class="form-label">Digite seu número</label>
+                                            <input class="foco" type="text" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp" name="numero"> -->
+
+                                            {%if end_cadastrado == [] %}
+                                            <div id="emailHelp" class="form-text">
+                                                Cadastre seu endereço na aba Meus Dados
+                                            </div>
+                                            {%else%}
+                                            <div id="emailHelp" class="form-text">
+                                                <h3>Endereços cadastrados</h3>
+                                                <!-- {% for i in end_cadastrado %}
+                                                <p>{{i[2]}}</p>
+                                                {% endfor %} -->
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for i in end_cadastrado %}
+                                                        <tr>
+                                                            <th scope="row"></th>
+                                                            <!-- <td><input type="checkbox" id="scales" name="scales"/></td> -->
+                                                            <!-- <td><input type="radio" id="css" name="fav_language" value="CSS"></td> -->
+                                                            <td>{{i[2]}}, N°{{i[3]}}</td>
+                                                            <td><a href="{{url_for('atualizar_pedido', id=i[0])}}"
+                                                                    class="btn btn-danger">Selecionar</a></td>
+                                                        </tr>
+                                                        
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                <!-- <a href=""
+                                                                    class="btn btn-danger">Remover endereço</a> -->
+                                            </div>
+                                            {%endif%}
+                                        </div>
+                                                                              
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="accordion-item pt-3">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-danger text-white" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                    Meus restaurantes
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% if meus_restaurantes == [] %}
+                                    <h4>Você não tem restaurantes!</h4>
+                                    {% else %}
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Descrição</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in meus_restaurantes %}
+                                            <tr>
+                                                <th scope="row">{{row[0]}}</th>
+                                                <td>{{row[1]}}</td>
+                                                {% if row[2] == '' %}
+                                                <td>Sem descrição</td>
+                                                {% else %}
+                                                <td>{{row[2]}}</td>
+                                                {% endif %}
+                                                <td><a href="" class="btn btn-danger">itens</a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {%endif%}
+                                </div>
+                            </div>
+                        </div> -->
+
+
+                    </div>
+
+                    <div class="col">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    {%endblock%}
+</body>
+</html>

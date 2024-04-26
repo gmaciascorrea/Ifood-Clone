@@ -5,6 +5,7 @@ import mysql.connector
 from google_auth_oauthlib.flow import Flow
 import os
 import brazilcep
+import time
 
 
 
@@ -53,10 +54,14 @@ def pegarnome():
 	global nome
 	my_cursor.execute(f"SELECT nome FROM iFood.usuario WHERE user_id = {usuario}")
 	nome = my_cursor.fetchall()[0][0]
+	print("-------------------LOG COLETAR USUÁRIO-------------------------")
+	print(f"Nome: {nome}")
+	print("------------------------------------------------------------")
 
 def cad_endereco():
 	usuario  = session.get("user")
-	my_cursor.execute(f"UPDATE iFood.usuario SET endereco = '{retornar_endereco}' WHERE user_id = {usuario}")
+	# my_cursor.execute(f"UPDATE iFood.usuario SET endereco = '{retornar_endereco}' WHERE user_id = {usuario}")
+	my_cursor.execute(f"INSERT INTO ifood.endereco (id_cliente, cep, Numero) VALUES ({usuario}, '{retornar_endereco}', '{numerocep}')")
 	mydb.commit()
 
 def cad_restaurante():
@@ -69,17 +74,85 @@ def carregar_restaurantes():
 	my_cursor.execute("SELECT * FROM iFood.restaurante ")
 	restaurantes = my_cursor.fetchall()
 
+def carregar_cesta():
+	global vcesta
+	global vcesta_formatado
+	global cesta_completa
+	global restaurante_da_cesta
+	usuario = session.get("user")
+	my_cursor.execute(f"SELECT * FROM ifood.cesta WHERE id_cliente = {usuario}")
+	cesta_completa = my_cursor.fetchall()
+	vcesta= 0.00
+	somar = 0.00
+
+
+	print("-------------------LOG CESTA-------------------------")
+	print(f"Cesta: {cesta_completa}") # ID da cesta // ID do cliente // Valor do item // ID do item // ID do restaurante
+	print("-----------------------------------------------------")
+	
+
+	if cesta_completa == []:
+		vcesta = 0.00
+		vcesta_formatado = 0.00
+	else:
+		my_cursor.execute(f"SELECT * FROM ifood.cesta WHERE id_cliente = {usuario}")
+		restaurante_da_cesta = my_cursor.fetchall()[0][4]
+		for i in cesta_completa:
+			restaurante_da_cesta = i[4]
+			somar += float(i[2])
+			vcesta = round(somar, 3)
+			vcesta_formatado = "{:.2f}".format(vcesta)
+			# print(f"o id do restaurante é {restaurante_da_cesta}")
+
 def buscar_restaurante():
 	global valorbus
 	coletar_busca = request.form.get("busca")
 	my_cursor.execute(f"SELECT * FROM iFood.restaurante WHERE nome like '%{coletar_busca}%'")
 	valorbus = my_cursor.fetchall()
+	print("-------------------RESTAURANTES PESQUISADOS-------------------------")
+	print(f"Encontrado: {valorbus}")
+	print("--------------------------------------------------------------------")
 
 def carregar_meus_restaurantes():
 	usuario = session.get("user")
 	global meus_restaurantes
 	my_cursor.execute(f"SELECT id, nome, descricao FROM iFood.restaurante WHERE owner = {usuario}")
 	meus_restaurantes = my_cursor.fetchall()
+	print("-------------------RESTAURANTES DO USUÁRIO-------------------------")
+	print(f"Restaurantes: {meus_restaurantes}")
+	print("-------------------------------------------------------------------")
+
+def gerar_pedido_banco():
+	carregar_cesta()
+	
+	usuario = session.get("user")
+	my_cursor.execute(f"INSERT INTO iFood.pedido (user_id, store_id, data, valor) VALUES ({usuario}, {restaurante_da_cesta}, now(), {vcesta_formatado}) ")
+	mydb.commit()
+	my_cursor.execute("SELECT LAST_INSERT_ID()")
+	global ultimo_pedido
+	ultimo_pedido = my_cursor.fetchall()[0][0]
+	my_cursor.execute(f"UPDATE iFood.usuario SET id_pedido = {ultimo_pedido} WHERE user_id = {usuario}")
+	mydb.commit()
+	
+	# print(ultimo_pedido)
+
+def carregar_pedido():
+	global id_do_pedido
+	usuario = session.get("user")
+	my_cursor.execute(f"SELECT id_pedido FROM ifood.usuario WHERE user_id = {usuario} ")
+	id_do_pedido = my_cursor.fetchall()[0][0]
+		
+def pegar_pedido_do_id():
+	global sucesso
+	usuario = session.get("user")
+	my_cursor.execute(f"SELECT pedido_id from ifood.pedido WHERE user_id = {usuario}")
+	sucesso = my_cursor.fetchall()
+	
+# def sucesso():
+# 	global teste_sucesso
+# 	teste_sucesso = 1
+# 	time.sleep(3)
+# 	return redirect("/inicio")
 
 def verify():
     if not session.get("user"):
@@ -127,17 +200,92 @@ def index_restaurante():
 # @precisa_logar está chamando a função de logar
 @validarlogin
 def index_inicio():
-
-
+	pegar_pedido_do_id()
 	usuario  = session.get("user")
 	my_cursor.execute(f"SELECT nome FROM iFood.usuario WHERE user_id = {usuario}")
 	nome = my_cursor.fetchall()[0][0]
-	
+	carregar_cesta()
 	carregar_restaurantes()
 
-	return render_template("home.html", nome=nome, restaurantes=restaurantes)
+	return render_template("home.html", nome=nome, restaurantes=restaurantes, vcesta=vcesta_formatado, sucesso=sucesso)
+
+@app.route("/cesta")
+def exibir_cesta():
+	if not session.get("user"):
+		return redirect("/entrar")
+	pegarnome()
+	carregar_cesta()
+	return render_template('cesta.html', vcesta=vcesta_formatado, nome=nome, cesta_completa = cesta_completa)
+
+
+@app.route("/registrando/cesta")
+def gerar_pedido():
+	pegar_pedido_do_id()
+	if sucesso == []:
+		gerar_pedido_banco()
+		return redirect("/finalizar")
+	
+	return redirect("/inicio")
+
+@app.route("/finalizar")
+def finalizar_cesta():
+	pegarnome()
+	carregar_pedido()
+	carregar_cesta()
+	# print(f"O pedido carregado foi esse aqui {salvar_pedido}")
+	usuario  = session.get("user")
+	my_cursor.execute(f"SELECT * FROM ifood.endereco WHERE id_cliente = {usuario}")
+	end_cadastrado= my_cursor.fetchall()
+	return render_template("Finalizar.html",vcesta=vcesta_formatado, nome=nome, end_cadastrado=end_cadastrado, id_do_pedido=id_do_pedido)
+
+@app.route("/atualizar/pedido/<id>")
+def atualizar_pedido(id):
+	usuario  = session.get("user")
+	# my_cursor.execute(f"DELETE FROM ifood.endereco WHERE id_endereco = {id}")
+	my_cursor.execute(f"UPDATE ifood.pedido set status = 'Aberto', endereco = {id}")
+	mydb.commit()
+
+	my_cursor.execute(f"delete from iFood.cesta where id_cliente = {usuario};")
+	mydb.commit()
 
 	
+	return redirect("/inicio")
+
+@app.route("/restaurante/<id>")
+def entrar_restaurante(id):
+	carregar_cesta()
+	carregar_restaurantes()
+	my_cursor.execute(f"SELECT * FROM iFood.restaurante WHERE id = {id}")
+	salvando = my_cursor.fetchall()
+	my_cursor.execute(f"SELECT * FROM ifood.itens WHERE id_restaurante = {id}")
+	produtos = my_cursor.fetchall()
+	return render_template("restaurante.html", salvando=salvando, produtos=produtos, vcesta=vcesta_formatado)
+	
+
+@app.route("/item/cesta/<id>/<res>")
+def inserir_cesta(id, res):
+	usuario = session.get("user")
+	my_cursor.execute(f"SELECT * FROM ifood.itens WHERE id = {id}")
+	ler = my_cursor.fetchall()
+	img= ler[0][3]
+	valor = ler[0][4]
+	my_cursor.execute(f"INSERT INTO ifood.cesta (id_cliente, valor_cesta, id_item, id_restaurante, img_produto) VALUES ({usuario}, {valor}, {id}, {res}, '{img}')")
+	mydb.commit()
+	print(ler)
+	print(valor)
+	return redirect(f"/restaurante/{res}") 
+
+@app.route("/remover/cesta/<id>")
+def remover_cesta(id):
+	my_cursor.execute(f"DELETE FROM ifood.cesta WHERE id_cesta = {id}")
+	mydb.commit()
+	return redirect("/cesta")
+
+@app.route("/remover/endereco/<id>")
+def remover_endereco(id):
+	my_cursor.execute(f"DELETE FROM ifood.endereco WHERE id_endereco = {id}")
+	mydb.commit()
+	return redirect("/meus_dados")
 
 @app.route("/buscando", methods=["POST"])
 def buscar_res():
@@ -147,7 +295,8 @@ def buscar_res():
 @app.route("/busca")
 def busca_fin():
 	pegarnome()
-	return render_template("busca.html", valorbus=valorbus, nome=nome)
+	carregar_cesta()
+	return render_template("busca.html", valorbus=valorbus, nome=nome, vcesta=vcesta_formatado)
 
 
 @app.route("/inicio/ende", methods=["POST"])
@@ -166,17 +315,23 @@ def mdados():
 
 	if request.method == 'GET':
 		pegarnome()
+		carregar_cesta()
 		carregar_meus_restaurantes()
 		usuario  = session.get("user")
-		my_cursor.execute(f"SELECT endereco FROM iFood.usuario WHERE user_id = {usuario}")
-		end_cadastrado= my_cursor.fetchall()[0][0]
-		print(end_cadastrado)
-		return render_template("mdados.html", nome=nome, end_cadastrado=end_cadastrado, meus_restaurantes=meus_restaurantes)
+		# my_cursor.execute(f"SELECT endereco FROM iFood.usuario WHERE user_id = {usuario}")
+		my_cursor.execute(f"SELECT * FROM ifood.endereco WHERE id_cliente = {usuario}")
+		end_cadastrado= my_cursor.fetchall()
+		print("-------------------LOG ENDEREÇO CAD-------------------------")
+		print(f"Endereço: {end_cadastrado}")
+		print("------------------------------------------------------------")
+		return render_template("mdados.html", nome=nome, end_cadastrado=end_cadastrado, meus_restaurantes=meus_restaurantes, vcesta=vcesta_formatado)
 
 
 	else:
 		global retornar_endereco
+		global numerocep
 		coletarcep = request.form.get("cep")
+		numerocep = request.form.get("numero")
 		address = brazilcep.get_address_from_cep(f'{coletarcep}')
 		retornar_endereco = address['street']
 		cad_endereco()

@@ -82,7 +82,8 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li class="vermelho"><a class="dropdown-item vermelho" href="#">Meus dados</a></li>
-                                    <li class="vermelho"><a class="dropdown-item vermelho" href="/cad_restaurante">Restaurante</a></li>
+                                    <li class="vermelho"><a class="dropdown-item vermelho"
+                                            href="/cad_restaurante">Restaurante</a></li>
                                     <li class="vermelho"><a class="dropdown-item vermelho"
                                             href="{{url_for('sair')}}">Sair</a></li>
                                 </ul>
@@ -92,7 +93,14 @@
 
                 </span>
                 <span class="carrinho">
-                    <a href=""><img class="icons" src="/static/img/carrinho.png" alt="">R$0,00</a>
+                    <a href="/cesta"><img class="icons" src="/static/img/carrinho.png" alt="">
+                        {% if vcesta == 0.0 %}
+                        R$0.00
+                        {% else %}
+                        R${{vcesta}}
+                        {% endif %}
+
+                    </a>
                     <!-- <p>R$0,00</p> -->
                 </span>
 
@@ -111,8 +119,8 @@
                         <h1 class="meusdados">Meus dados</h1>
                         <div class="accordion-item">
                             <h2 class="accordion-header border-0">
-                                <button class="accordion-button collapsed bg-danger text-dark btn-danger" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                <button class="accordion-button collapsed bg-danger text-white btn-danger" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
                                     Cadastrar endereço
                                 </button>
@@ -121,19 +129,47 @@
                                 data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
                                     <form action="{{url_for('mdados')}}" method="POST">
-                                        
+
                                         <div class="mb-3 input-box">
                                             <label for="exampleInputEmail1" class="form-label">Digite seu cep</label>
                                             <input class="foco" type="text" class="form-control" id="exampleInputEmail1"
                                                 aria-describedby="emailHelp" name="cep">
-                                            {%if end_cadastrado == none%}
+
+                                            <label for="exampleInputEmail1" class="form-label">Digite seu número</label>
+                                            <input class="foco" type="text" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp" name="numero">
+
+                                            {%if end_cadastrado == [] %}
                                             <div id="emailHelp" class="form-text">
                                                 Digite seu CEP para cadastrar seu
                                                 endereço!
                                             </div>
                                             {%else%}
                                             <div id="emailHelp" class="form-text">
-                                                Endereço cadastrado: {{end_cadastrado}}
+                                                <h3>Endereços cadastrados</h3>
+                                                <!-- {% for i in end_cadastrado %}
+                                                <p>{{i[2]}}</p>
+                                                {% endfor %} -->
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+                                                            <th scope="col"></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for i in end_cadastrado %}
+                                                        <tr>
+                                                            <th scope="row"></th>
+                                                            <td>{{i[2]}}, N°{{i[3]}}</td>
+                                                            <td><a href="{{url_for('remover_endereco', id=i[0])}}"
+                                                                    class="btn btn-danger">Remover endereço</a></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                             {%endif%}
                                         </div>
@@ -151,10 +187,10 @@
                                                 <input id="senha" type="password" name="senha" placeholder="Digite sua senha" required>
                                             </div>
                                         </div> -->
-                                        {%if end_cadastrado == none %}
+                                        {%if end_cadastrado == [] %}
                                         <button class="button_end" type="submit">Cadastrar</button>
                                         {% else %}
-                                        <button class="button_end" type="submit">Atualizar</button>
+                                        <button class="button_end" type="submit">Adicionar Outro</button>
                                         {%endif%}
                                     </form>
                                 </div>
@@ -162,45 +198,50 @@
                         </div>
                         <div class="accordion-item pt-3">
                             <h2 class="accordion-header">
-                              <button class="accordion-button collapsed bg-danger text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Meus restaurantes
-                              </button>
+                                <button class="accordion-button collapsed bg-danger text-white" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                                    aria-controls="collapseTwo">
+                                    Meus restaurantes
+                                </button>
                             </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                              <div class="accordion-body">
-                                {% if meus_restaurantes == [] %}
-                                <h4>Você não tem restaurantes!</h4>
-                                {% else %}
-                                <table class="table">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Descrição</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for row in meus_restaurantes %}
-                                      <tr>
-                                        <th scope="row">{{row[0]}}</th>
-                                        <td>{{row[1]}}</td>
-                                        {% if row[2] == '' %}
-                                        <td>Sem descrição</td>
-                                        {% else %}
-                                        <td>{{row[2]}}</td>
-                                        {% endif %}
-                                      </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                  </table>
-                                  {%endif%}
-                              </div>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {% if meus_restaurantes == [] %}
+                                    <h4>Você não tem restaurantes!</h4>
+                                    {% else %}
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Descrição</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in meus_restaurantes %}
+                                            <tr>
+                                                <th scope="row">{{row[0]}}</th>
+                                                <td>{{row[1]}}</td>
+                                                {% if row[2] == '' %}
+                                                <td>Sem descrição</td>
+                                                {% else %}
+                                                <td>{{row[2]}}</td>
+                                                {% endif %}
+                                                <td><a href="" class="btn btn-danger">itens</a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {%endif%}
+                                </div>
                             </div>
-                          </div>
-                        
+                        </div>
+
 
                     </div>
-                    
+
                     <div class="col">
 
                     </div>

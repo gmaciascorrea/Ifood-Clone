@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cesta de {{nome}}</title>
+</head>
+<body>
+    {% extends  'home.html'%}
+    {%block conteudo%}
+    <div class="col-md-auto">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="container text-center">
+                <div class="row align-items-start">
+                    <div class="col">
+                        
+                    </div>
+                    <div class="col">
+                        <h1 class="meusdados">Sua cesta</h1>
+                        {% if cesta_completa == [] %}
+                        <p>Adicione itens em sua cesta para ser exibido!</p>
+                        {% else %}
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Prod</th>
+                                <th scope="col">Valor</th>
+                              </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                {% for i in cesta_completa%}
+                              <tr>
+                                <th scope="row"></th>
+                                <td><img class="corrigir-produto" src="{{i[5]}}" alt=""></td>
+                                <td class="align-middle">R${{i[2]}}</td>
+        
+                                <td class="align-middle"><a href="{{url_for('remover_cesta', id=i[0])}}" class="btn btn-danger">Remover</a></td>
+                              </tr>
+                              <tr>
+                                {% endfor %}
+                            </tbody>
+                          </table>
+                          {% endif %}
+                          <!-- <p class="text-end">Total: R${{vcesta}}</p> -->
+                          {% if cesta_completa  == [] %}
+                          <p></p>
+                          {% else %}
+                          <div class="badge text-bg-danger text-wrap " style="width: 10rem; font-size: 15px">
+                            Total: R${{vcesta}}
+                          </div>
+                          <br>
+                          <br>
+                          <a href="{{url_for('gerar_pedido')}}" class="btn btn-danger">Finalizar pedido</a>
+                          
+                          {% endif %}
+                        
+                        
+                        
+
+                    </div>
+                    
+                    <div class="col">
+
+                    </div>
+                </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+    {%endblock%}
+
+</body>
+</html>
